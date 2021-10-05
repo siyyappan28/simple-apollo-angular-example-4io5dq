@@ -6,8 +6,9 @@ import { map } from "rxjs/operators";
 import { Post, Query } from "./types";
 
 @Component({
-  selector: "app-list",
-  template: `
+    selector: "app-list",
+    template: `
+<h2>Employee Data</h2><br/>
     <ul>
       <li *ngFor="let post of (posts | async)">
         {{ post.Id }}
@@ -17,13 +18,13 @@ import { Post, Query } from "./types";
   `
 })
 export class ListComponent implements OnInit {
-  posts: Observable<Post[]>;
-  constructor(private apollo: Apollo) {}
+    posts: Observable<Post[]>;
+    constructor(private apollo: Apollo) { }
 
-  ngOnInit() {
-    this.posts = this.apollo
-      .watchQuery<Query>({
-        query: gql`
+    ngOnInit() {
+        this.posts = this.apollo
+            .watchQuery<Query>({
+                query: gql`
           query Employee {
             Employee {
               Id
@@ -32,7 +33,7 @@ export class ListComponent implements OnInit {
             }
           }
         `
-      })
-      .valueChanges.pipe(map(result => result.data.Employee));
-  }
+            })
+            .valueChanges.pipe(map(result => result.data.Employee));
+    }
 }
